@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#101010">
+
+<title>Quiet Reader</title>
+
+<style>
+
+/* =========================================
+
+   GOTHAM PRO - LOCAL FONT FILES
+
+   Upload these files into /fonts/
+
+========================================= */
+
+@font-face {
+
+  font-family: "Gotham Pro";
+
+  src: url("./fonts/GothamPro-Regular.otf") format("opentype");
+
+  font-weight: 400;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+@font-face {
+
+  font-family: "Gotham Pro";
+
+  src: url("./fonts/GothamPro-Medium.otf") format("opentype");
+
+  font-weight: 500;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+@font-face {
+
+  font-family: "Gotham Pro";
+
+  src: url("./fonts/GothamPro-Bold.otf") format("opentype");
+
+  font-weight: 700;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+@font-face {
+
+  font-family: "Gotham Pro";
+
+  src: url("./fonts/GothamPro-Italic.otf") format("opentype");
+
+  font-weight: 400;
+
+  font-style: italic;
+
+  font-display: swap;
+
+}
+
+/* =========================================
+
+   DESIGN SYSTEM
+
+========================================= */
+
+:root {
+
+  color-scheme: dark;
+
+  --background: #101010;
+
+  --surface: #181818;
+
+  --surface-hover: #222222;
+
+  --border: #2b2b2b;
+
+  --text: #eeeeee;
+
+  --muted: #929292;
+
+  --accent: #c5d6b9;
+
+  --accent-text: #111510;
+
+  --reader-width: 760px;
+
+}
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+html {
+
+  background: var(--background);
+
+  scroll-behavior: smooth;
+
+}
+
+body {
+
+  margin: 0;
+
+  background: var(--background);
+
+  color: var(--text);
+
+  font-family: "Gotham Pro", Arial, sans-serif;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  -webkit-font-smoothing: antialiased;
+
+}
+
+button, input, textarea {
+
+  font: inherit;
+
+}
+
+button {
+
+  cursor: pointer;
+
+  color: var(--text);
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  padding: 11px 15px;
+
+  transition: background .2s, border-color .2s;
+
+}
+
+button:hover {
+
+  background: var(--surface-hover);
+
+}
+
+button:focus-visible,
+
+textarea:focus-visible,
+
+input:focus-visible {
+
+  outline: 2px solid var(--accent);
+
+  outline-offset: 3px;
+
+}
+
+.primary {
+
+  background: var(--accent);
+
+  color: var(--accent-text);
+
+  border-color: var(--accent);
+
+  font-weight: 700;
+
+}
+
+.primary:hover {
+
+  background: #d5e3ca;
+
+}
+
+.hidden {
+
+  display: none !important;
+
+}
+
+/* =========================================
+
+   HEADER
+
+========================================= */
+
+header {
+
+  max-width: 1050px;
+
+  margin: auto;
+
+  padding: 25px 22px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+.logo {
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.7px;
+
+}
+
+.logo-sub {
+
+  font-size: 11px;
+
+  color: var(--muted);
+
+  margin-top: 2px;
+
+}
+
+nav {
+
+  display: flex;
+
+  gap: 8px;
+
+}
+
+.nav-button {
+
+  font-size: 12px;
+
+  padding: 9px 13px;
+
+}
+
+.nav-button.active {
+
+  background: var(--surface-hover);
+
+  border-color: #505050;
+
+}
+
+/* =========================================
+
+   MAIN LAYOUT
+
+========================================= */
+
+main {
+
+  max-width: 850px;
+
+  margin: 30px auto;
+
+  padding: 0 22px 70px;
+
+}
+
+.panel {
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  padding: 23px;
+
+}
+
+h1, h2 {
+
+  letter-spacing: -1px;
+
+  line-height: 1.3;
+
+}
+
+h1 {
+
+  font-size: 27px;
+
+  margin: 0 0 7px;
+
+}
+
+h2 {
+
+  font-size: 21px;
+
+  margin: 0 0 16px;
+
+}
+
+.muted {
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+}
+
+/* =========================================
+
+   INPUT AREA
+
+========================================= */
+
+.field {
+
+  margin-top: 20px;
+
+}
+
+.field label {
+
+  display: block;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  margin-bottom: 8px;
+
+  color: #bcbcbc;
+
+}
+
+input, textarea {
+
+  width: 100%;
+
+  background: #111111;
+
+  border: 1px solid var(--border);
+
+  color: var(--text);
+
+  border-radius: 10px;
+
+  padding: 13px;
+
+  outline: none;
+
+}
+
+input::placeholder,
+
+textarea::placeholder {
+
+  color: #626262;
+
+}
+
+textarea {
+
+  min-height: 260px;
+
+  resize: vertical;
+
+  line-height: 1.7;
+
+}
+
+.actions {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-top: 17px;
+
+}
+
+.hint {
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  margin-top: 13px;
+
+}
+
+/* =========================================
+
+   LANGUAGE SELECTION
+
+========================================= */
+
+.choice {
+
+  padding: 25px;
+
+}
+
+.choice-buttons {
+
+  display: grid;
+
+  gap: 12px;
+
+  margin-top: 24px;
+
+}
+
+.choice-option {
+
+  text-align: left;
+
+  padding: 17px;
+
+}
+
+.choice-option strong {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+}
+
+.choice-option span {
+
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+/* =========================================
+
+   READER
+
+========================================= */
+
+.reader {
+
+  max-width: var(--reader-width);
+
+  margin: 25px auto;
+
+}
+
+.reader-toolbar {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 25px;
+
+}
+
+.reader-toolbar button {
+
+  font-size: 12px;
+
+  padding: 9px 12px;
+
+}
+
+.reader-content {
+
+  padding: 35px 30px 55px;
+
+}
+
+.reader-title {
+
+  font-size: 29px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+
+  letter-spacing: -1px;
+
+  margin: 0 0 32px;
+
+  overflow-wrap: anywhere;
+
+}
+
+.chapter-text {
+
+  font-size: 17px;
+
+  line-height: 2;
+
+  font-weight: 400;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+
+}
+
+.reader-content:has(.chapter-text) {
+
+  background: transparent;
+
+  border: none;
+
+  padding-top: 15px;
+
+}
+
+/* =========================================
+
+   TRANSLATION CHUNKS
+
+========================================= */
+
+.chunks {
+
+  max-width: var(--reader-width);
+
+  margin: 25px auto;
+
+}
+
+.chunk {
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  padding: 17px;
+
+  margin-bottom: 13px;
+
+}
+
+.chunk-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 13px;
+
+}
+
+.chunk-header strong {
+
+  font-size: 13px;
+
+}
+
+.chunk-count {
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+}
+
+.chunk pre {
+
+  font-family: "Gotham Pro", sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.8;
+
+  color: #cccccc;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+
+  margin: 0 0 15px;
+
+}
+
+.copy-button {
+
+  font-size: 11px;
+
+  padding: 9px 13px;
+
+}
+
+/* =========================================
+
+   HISTORY
+
+========================================= */
+
+.history-list {
+
+  display: grid;
+
+  gap: 10px;
+
+  margin-top: 20px;
+
+}
+
+.history-item {
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 11px;
+
+  padding: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+}
+
+.history-info {
+
+  min-width: 0;
+
+}
+
+.history-title {
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+
+}
+
+.history-meta {
+
+  font-size: 10px;
+
+  color: var(--muted);
+
+  margin-top: 5px;
+
+}
+
+.history-actions {
+
+  display: flex;
+
+  gap: 6px;
+
+  flex-shrink: 0;
+
+}
+
+.history-actions button {
+
+  font-size: 10px;
+
+  padding: 8px 10px;
+
+}
+
+.empty-history {
+
+  padding: 30px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+}
+
+footer {
+
+  text-align: center;
+
+  color: #666666;
+
+  font-size: 10px;
+
+  margin-top: 50px;
+
+}
+
+/* =========================================
+
+   MOBILE
+
+========================================= */
+
+@media (max-width: 600px) {
+
+  header {
+
+    padding: 19px 16px;
+
+  }
+
+  main {
+
+    padding: 0 14px 50px;
+
+    margin-top: 15px;
+
+  }
+
+  .panel {
+
+    padding: 17px;
+
+  }
+
+  h1 {
+
+    font-size: 23px;
+
+  }
+
+  .reader-content {
+
+    padding: 22px 17px 40px;
+
+  }
+
+  .reader-title {
+
+    font-size: 25px;
+
+  }
+
+  .chapter-text {
+
+    font-size: 16px;
+
+    line-height: 1.95;
+
+  }
+
+  .history-item {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .history-actions {
+
+    width: 100%;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header id="mainHeader">
+
+  <div>
+
+    <div class="logo">Quiet Reader</div>
+
+    <div class="logo-sub">Your personal reading space</div>
+
+  </div>
+
+  <nav>
+
+    <button class="nav-button active" id="newTab">
+
+      New chapter
+
+    </button>
+
+    <button class="nav-button" id="historyTab">
+
+      History <span id="historyCount"></span>
+
+    </button>
+
+  </nav>
+
+</header>
+
+<main>
+
+<!-- =====================================
+
+     NEW CHAPTER
+
+===================================== -->
+
+<section id="pasteView" class="panel">
+
+  <h1>Open a chapter</h1>
+
+  <div class="muted">
+
+    Paste your chapter below to begin reading.
+
+  </div>
+
+  <div class="field">
+
+    <label for="chapterTitle">CHAPTER TITLE (OPTIONAL)</label>
+
+    <input
+
+      id="chapterTitle"
+
+      placeholder="Enter chapter title..."
+
+    >
+
+  </div>
+
+  <div class="field">
+
+    <label for="chapterInput">CHAPTER CONTENT</label>
+
+    <textarea
+
+      id="chapterInput"
+
+      placeholder="Paste your complete chapter here..."
+
+    ></textarea>
+
+  </div>
+
+  <div class="actions">
+
+    <button class="primary" id="openBtn">
+
+      Open chapter
+
+    </button>
+
+    <button id="clearInputBtn">
+
+      Clear
+
+    </button>
+
+  </div>
+
+  <div class="hint">
+
+    Chapters are automatically saved in your browser.
+
+    Nothing is uploaded.
+
+  </div>
+
+</section>
+
+<!-- =====================================
+
+     HISTORY
+
+===================================== -->
+
+<section id="historyView" class="hidden">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+
+    <div>
+
+      <h1>History</h1>
+
+      <div class="muted">
+
+        Your previously saved chapters.
+
+      </div>
+
+    </div>
+
+    <button id="clearHistoryBtn">
+
+      Clear all
+
+    </button>
+
+  </div>
+
+  <div id="historyList" class="history-list"></div>
+
+  <div id="emptyHistory" class="empty-history hidden">
+
+    No chapters saved yet.
+
+  </div>
+
+</section>
+
+<!-- =====================================
+
+     LANGUAGE CHOICE
+
+===================================== -->
+
+<section id="choiceView" class="panel choice hidden">
+
+  <div class="muted" id="detectedLabel">
+
+    LANGUAGE DETECTED
+
+  </div>
+
+  <h1 id="choiceTitle" style="margin-top:8px">
+
+    Choose how to view this chapter
+
+  </h1>
+
+  <p class="muted">
+
+    Choose whether to read the original chapter
+
+    or prepare it for translation.
+
+  </p>
+
+  <div class="choice-buttons">
+
+    <button class="choice-option primary" id="displayBtn">
+
+      <strong>Display normally</strong>
+
+      <span style="color:#263024">
+
+        Read the complete chapter in its original form.
+
+      </span>
+
+    </button>
+
+    <button class="choice-option" id="splitBtn">
+
+      <strong>Split into 5,000-character sections</strong>
+
+      <span>
+
+        Prepare individual sections for DeepL.
+
+      </span>
+
+    </button>
+
+    <button class="choice-option" id="backBtn">
+
+      <strong>Go back</strong>
+
+      <span>Return to the previous screen.</span>
+
+    </button>
+
+  </div>
+
+</section>
+
+<!-- =====================================
+
+     READING VIEW
+
+===================================== -->
+
+<section id="readerView" class="hidden">
+
+  <div class="reader">
+
+    <div class="reader-toolbar">
+
+      <button id="readerBack">
+
+        ← Back
+
+      </button>
+
+      <div class="actions" style="margin:0">
+
+        <button id="readerSplit" class="hidden">
+
+          Copy sections
+
+        </button>
+
+        <button id="readerCopy">
+
+          Copy chapter
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <article class="reader-content">
+
+      <h1 class="reader-title" id="readerTitle"></h1>
+
+      <div class="chapter-text" id="readerText"></div>
+
+    </article>
+
+  </div>
+
+  <div id="chunksView" class="chunks hidden"></div>
+
+</section>
+
+<footer>
+
+  Quiet Reader · Your chapters stay on this device.
+
+</footer>
+
+</main>
+
+<script>
+
+/* =========================================
+
+   DATABASE - LOCAL BROWSER STORAGE
+
+========================================= */
+
+const DB_NAME = "QuietReaderDatabase";
+
+const STORE_NAME = "chapters";
+
+const CHUNK_LIMIT = 5000;
+
+let db;
+
+let currentChapter = null;
+
+let pendingChapter = null;
+
+const $ = id => document.getElementById(id);
+
+const views = [
+
+  "pasteView",
+
+  "historyView",
+
+  "choiceView",
+
+  "readerView"
+
+];
+
+function showView(view) {
+
+  views.forEach(id => {
+
+    $(id).classList.toggle("hidden", id !== view);
+
+  });
+
+  $("newTab").classList.toggle(
+
+    "active",
+
+    view === "pasteView"
+
+  );
+
+  $("historyTab").classList.toggle(
+
+    "active",
+
+    view === "historyView"
+
+  );
+
+  window.scrollTo(0, 0);
+
+}
+
+/* =========================================
+
+   INDEXEDDB
+
+========================================= */
+
+function openDatabase() {
+
+  return new Promise((resolve, reject) => {
+
+    const request = indexedDB.open(DB_NAME, 1);
+
+    request.onupgradeneeded = () => {
+
+      const database = request.result;
+
+      if (!database.objectStoreNames.contains(STORE_NAME)) {
+
+        database.createObjectStore(STORE_NAME, {
+
+          keyPath: "id"
+
+        });
+
+      }
+
+    };
+
+    request.onsuccess = () => {
+
+      resolve(request.result);
+
+    };
+
+    request.onerror = () => {
+
+      reject(request.error);
+
+    };
+
+  });
+
+}
+
+function store(mode) {
+
+  return db
+
+    .transaction(STORE_NAME, mode)
+
+    .objectStore(STORE_NAME);
+
+}
+
+function saveChapter(chapter) {
+
+  return new Promise((resolve, reject) => {
+
+    const request = store("readwrite").put(chapter);
+
+    request.onsuccess = resolve;
+
+    request.onerror = () => reject(request.error);
+
+  });
+
+}
+
+function getAllChapters() {
+
+  return new Promise((resolve, reject) => {
+
+    const request = store("readonly").getAll();
+
+    request.onsuccess = () => {
+
+      resolve(
+
+        request.result.sort(
+
+          (a, b) => b.savedAt - a.savedAt
+
+        )
+
+      );
+
+    };
+
+    request.onerror = () => reject(request.error);
+
+  });
+
+}
+
+function deleteChapter(id) {
+
+  return new Promise((resolve, reject) => {
+
+    const request = store("readwrite").delete(id);
+
+    request.onsuccess = resolve;
+
+    request.onerror = () => reject(request.error);
+
+  });
+
+}
+
+function deleteAllChapters() {
+
+  return new Promise((resolve, reject) => {
+
+    const request = store("readwrite").clear();
+
+    request.onsuccess = resolve;
+
+    request.onerror = () => reject(request.error);
+
+  });
+
+}
+
+/* =========================================
+
+   LANGUAGE DETECTION
+
+========================================= */
+
+function detectLanguage(text) {
+
+  const sample = text.slice(0, 15000);
+
+  if (/[\u3040-\u30ff]/.test(sample)) {
+
+    return "Japanese";
+
+  }
+
+  if (/[\uac00-\ud7af]/.test(sample)) {
+
+    return "Korean";
+
+  }
+
+  if (/[\u4e00-\u9fff]/.test(sample)) {
+
+    return "Chinese";
+
+  }
+
+  if (/[\u0400-\u04ff]/.test(sample)) {
+
+    return "Cyrillic";
+
+  }
+
+  if (/[\u0600-\u06ff]/.test(sample)) {
+
+    return "Arabic";
+
+  }
+
+  if (/[\u0900-\u097f]/.test(sample)) {
+
+    return "Devanagari";
+
+  }
+
+  const words =
+
+    sample.toLowerCase().match(/[a-záéíóúàèìòùüñç]+/g) || [];
+
+  const dictionaries = {
+
+    English: "the and of to a in is that it for with as was he she they you his her on at by from this have had not but be are were what when who which their them then there if would could will one all no so has can said",
+
+    Spanish: "el la los las de que y en un una es por con para como del se no pero",
+
+    French: "le la les de des et un une est que dans pour avec pas sur qui",
+
+    German: "der die das und ist zu ein eine von mit nicht auf den dem",
+
+    Italian: "il lo la di e che un una per con è non del della",
+
+    Portuguese: "o a os as de e que um uma para com não do da",
+
+  };
+
+  let bestLanguage = "Unknown";
+
+  let bestScore = 0;
+
+  for (const [language, dictionary] of Object.entries(dictionaries)) {
+
+    const terms = new Set(dictionary.split(" "));
+
+    let score = 0;
+
+    for (const word of words) {
+
+      if (terms.has(word)) score++;
+
+    }
+
+    if (score > bestScore) {
+
+      bestScore = score;
+
+      bestLanguage = language;
+
+    }
+
+  }
+
+  if (words.length < 8) {
+
+    return "Unknown";
+
+  }
+
+  if (bestLanguage === "English") {
+
+    return bestScore >= 3 ? "English" : "Unknown";
+
+  }
+
+  return bestScore >= 3 ? bestLanguage : "Unknown";
+
+}
+
+/* =========================================
+
+   CHAPTER TITLES
+
+========================================= */
+
+function makeTitle(text, provided) {
+
+  if (provided.trim()) {
+
+    return provided.trim();
+
+  }
+
+  const firstLine = text
+
+    .split(/\r?\n/)
+
+    .map(line => line.trim())
+
+    .find(Boolean);
+
+  return (firstLine || "Untitled chapter").slice(0, 150);
+
+}
+
+/* =========================================
+
+   SAVE NEW CHAPTER
+
+========================================= */
+
+async function createChapter(text, title, language) {
+
+  const chapter = {
+
+    id: crypto.randomUUID
+
+      ? crypto.randomUUID()
+
+      : String(Date.now()) + Math.random(),
+
+    title,
+
+    text,
+
+    language,
+
+    savedAt: Date.now()
+
+  };
+
+  await saveChapter(chapter);
+
+  return chapter;
+
+}
+
+/* =========================================
+
+   CHUNKING ENGINE
+
+   Maximum 5,000 Unicode characters
+
+   Preserves line breaks where possible
+
+========================================= */
+
+function splitIntoChunks(text) {
+
+  const chunks = [];
+
+  let current = "";
+
+  function lengthOf(value) {
+
+    return Array.from(value).length;
+
+  }
+
+  function flush() {
+
+    if (current) {
+
+      chunks.push(current);
+
+      current = "";
+
+    }
+
+  }
+
+  const lines = text.match(/[^\n]*\n|[^\n]+$/g) || [];
+
+  for (let line of lines) {
+
+    if (lengthOf(line) > CHUNK_LIMIT) {
+
+      flush();
+
+      let chars = Array.from(line);
+
+      while (chars.length > CHUNK_LIMIT) {
+
+        chunks.push(
+
+          chars.slice(0, CHUNK_LIMIT).join("")
+
+        );
+
+        chars = chars.slice(CHUNK_LIMIT);
+
+      }
+
+      current = chars.join("");
+
+    } else if (
+
+      lengthOf(current) + lengthOf(line) > CHUNK_LIMIT
+
+    ) {
+
+      flush();
+
+      current = line;
+
+    } else {
+
+      current += line;
+
+    }
+
+  }
+
+  flush();
+
+  return chunks;
+
+}
+
+/* =========================================
+
+   COPY FUNCTION
+
+========================================= */
+
+async function copyText(text, button, originalLabel) {
+
+  try {
+
+    if (navigator.clipboard && window.isSecureContext) {
+
+      await navigator.clipboard.writeText(text);
+
+    } else {
+
+      const temp = document.createElement("textarea");
+
+      temp.value = text;
+
+      temp.style.position = "fixed";
+
+      temp.style.opacity = "0";
+
+      document.body.appendChild(temp);
+
+      temp.select();
+
+      const successful = document.execCommand("copy");
+
+      temp.remove();
+
+      if (!successful) {
+
+        throw new Error("Copy failed");
+
+      }
+
+    }
+
+    button.textContent = "Copied!";
+
+    setTimeout(() => {
+
+      button.textContent = originalLabel;
+
+    }, 1300);
+
+  } catch (error) {
+
+    alert("Unable to copy. Please try again.");
+
+  }
+
+}
+
+/* =========================================
+
+   READER
+
+========================================= */
+
+function displayChapter(chapter, showChunks = false) {
+
+  currentChapter = chapter;
+
+  showView("readerView");
+
+  $("readerTitle").textContent = chapter.title;
+
+  $("readerText").textContent = chapter.text;
+
+  $("readerSplit").classList.toggle(
+
+    "hidden",
+
+    chapter.language === "English"
+
+  );
+
+  $("chunksView").classList.toggle(
+
+    "hidden",
+
+    !showChunks
+
+  );
+
+  if (showChunks) {
+
+    renderChunks(chapter.text);
+
+  }
+
+}
+
+/* =========================================
+
+   CHUNK DISPLAY
+
+========================================= */
+
+function renderChunks(text) {
+
+  const chunks = splitIntoChunks(text);
+
+  const container = $("chunksView");
+
+  container.innerHTML = "";
+
+  const heading = document.createElement("h2");
+
+  heading.textContent =
+
+    "Translation sections (" + chunks.length + ")";
+
+  container.appendChild(heading);
+
+  chunks.forEach((chunk, index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "chunk";
+
+    const header = document.createElement("div");
+
+    header.className = "chunk-header";
+
+    const name = document.createElement("strong");
+
+    name.textContent = "Section " + (index + 1);
+
+    const count = document.createElement("span");
+
+    count.className = "chunk-count";
+
+    count.textContent =
+
+      Array.from(chunk).length.toLocaleString() +
+
+      " / 5,000 characters";
+
+    header.append(name, count);
+
+    const content = document.createElement("pre");
+
+    content.textContent = chunk;
+
+    const copy = document.createElement("button");
+
+    copy.className = "copy-button";
+
+    copy.textContent = "Copy section";
+
+    copy.onclick = () => {
+
+      copyText(chunk, copy, "Copy section");
+
+    };
+
+    card.append(header, content, copy);
+
+    container.appendChild(card);
+
+  });
+
+}
+
+/* =========================================
+
+   HISTORY
+
+========================================= */
+
+async function refreshHistory() {
+
+  const chapters = await getAllChapters();
+
+  $("historyCount").textContent =
+
+    chapters.length ? "(" + chapters.length + ")" : "";
+
+  const list = $("historyList");
+
+  list.innerHTML = "";
+
+  $("emptyHistory").classList.toggle(
+
+    "hidden",
+
+    chapters.length > 0
+
+  );
+
+  chapters.forEach(chapter => {
+
+    const item = document.createElement("div");
+
+    item.className = "history-item";
+
+    const info = document.createElement("div");
+
+    info.className = "history-info";
+
+    const title = document.createElement("div");
+
+    title.className = "history-title";
+
+    title.textContent = chapter.title;
+
+    const meta = document.createElement("div");
+
+    meta.className = "history-meta";
+
+    meta.textContent =
+
+      chapter.language +
+
+      " · " +
+
+      chapter.text.length.toLocaleString() +
+
+      " characters · " +
+
+      new Date(chapter.savedAt).toLocaleString();
+
+    info.append(title, meta);
+
+    const actions = document.createElement("div");
+
+    actions.className = "history-actions";
+
+    const open = document.createElement("button");
+
+    open.textContent = "Open";
+
+    open.onclick = () => {
+
+      displayChapter(chapter);
+
+    };
+
+    const remove = document.createElement("button");
+
+    remove.textContent = "Delete";
+
+    remove.onclick = async () => {
+
+      if (confirm("Delete this chapter?")) {
+
+        await deleteChapter(chapter.id);
+
+        if (
+
+          currentChapter &&
+
+          currentChapter.id === chapter.id
+
+        ) {
+
+          currentChapter = null;
+
+        }
+
+        refreshHistory();
+
+      }
+
+    };
+
+    actions.append(open, remove);
+
+    item.append(info, actions);
+
+    list.appendChild(item);
+
+  });
+
+}
+
+/* =========================================
+
+   NAVIGATION
+
+========================================= */
+
+$("newTab").onclick = () => {
+
+  showView("pasteView");
+
+};
+
+$("historyTab").onclick = () => {
+
+  showView("historyView");
+
+  refreshHistory();
+
+};
+
+$("clearInputBtn").onclick = () => {
+
+  $("chapterTitle").value = "";
+
+  $("chapterInput").value = "";
+
+};
+
+$("openBtn").onclick = async () => {
+
+  const text = $("chapterInput").value;
+
+  if (!text.trim()) {
+
+    alert("Please paste a chapter first.");
+
+    return;
+
+  }
+
+  if (!db) {
+
+    alert("Browser storage is not ready yet.");
+
+    return;
+
+  }
+
+  const language = detectLanguage(text);
+
+  const title = makeTitle(
+
+    text,
+
+    $("chapterTitle").value
+
+  );
+
+  const chapter = await createChapter(
+
+    text,
+
+    title,
+
+    language
+
+  );
+
+  pendingChapter = chapter;
+
+  await refreshHistory();
+
+  if (language === "English") {
+
+    displayChapter(chapter);
+
+  } else {
+
+    $("detectedLabel").textContent =
+
+      language === "Unknown"
+
+        ? "Language could not be confidently identified"
+
+        : "Detected language: " + language;
+
+    $("choiceTitle").textContent = title;
+
+    showView("choiceView");
+
+  }
+
+};
+
+$("displayBtn").onclick = () => {
+
+  displayChapter(pendingChapter);
+
+};
+
+$("splitBtn").onclick = () => {
+
+  displayChapter(pendingChapter, true);
+
+};
+
+$("backBtn").onclick = () => {
+
+  showView("pasteView");
+
+};
+
+$("readerBack").onclick = () => {
+
+  showView("historyView");
+
+  refreshHistory();
+
+};
+
+$("readerSplit").onclick = () => {
+
+  displayChapter(currentChapter, true);
+
+  $("chunksView").scrollIntoView({
+
+    behavior: "smooth"
+
+  });
+
+};
+
+$("readerCopy").onclick = () => {
+
+  if (!currentChapter) return;
+
+  copyText(
+
+    currentChapter.text,
+
+    $("readerCopy"),
+
+    "Copy chapter"
+
+  );
+
+};
+
+$("clearHistoryBtn").onclick = async () => {
+
+  if (
+
+    confirm(
+
+      "Delete ALL saved chapters from this browser? This cannot be undone."
+
+    )
+
+  ) {
+
+    await deleteAllChapters();
+
+    currentChapter = null;
+
+    refreshHistory();
+
+  }
+
+};
+
+/* =========================================
+
+   INITIALIZATION
+
+========================================= */
+
+openDatabase()
+
+  .then(database => {
+
+    db = database;
+
+    refreshHistory();
+
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    alert(
+
+      "Unable to access browser storage. " +
+
+      "Please check your browser settings."
+
+    );
+
+  });
+
+</script>
+
+</body>
+
+</html>
